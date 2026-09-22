@@ -137,7 +137,12 @@ void ThemeSelectorWidget::setupButtons(QBoxLayout* layout)
         button->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextUnderIcon);
         button->setText(theme.second);
         button->setIcon(iconMap[theme.first]);
-        button->setIconSize(iconMap[theme.first].actualSize(QSize(256, 256)));
+        auto iconSize = iconMap[theme.first].actualSize(QSize(256, 256));
+        if (!shouldHideClassicTheme()) {
+            iconSize *= 2;
+            iconSize /= 3;
+        }
+        button->setIconSize(iconSize);
         if (theme.first == Theme::Classic && styleSheetName.isEmpty()) {
             button->setChecked(true);
         }
